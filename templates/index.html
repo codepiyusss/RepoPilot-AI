@@ -121,11 +121,7 @@
 
         analyzeBtn.addEventListener('click', function() {
             const url = repoUrl.value.trim();
-            if (url) {
-                alert('Repository analysis feature coming soon!\n\nYou entered: ' + url);
-            } else {
-                alert('Please enter a valid GitHub repository URL');
-            }
+            analyzeRepository(url);
         });
 
         repoUrl.addEventListener('keypress', function(event) {
@@ -134,5 +130,52 @@
             }
         });
     });
+
+    function analyzeRepository(url) {
+        // Validate URL format
+        if (!url) {
+            showNotification('Please enter a GitHub repository URL', 'error');
+            return;
+        }
+
+        // Validate GitHub URL format
+        if (!isValidGitHubUrl(url)) {
+            showNotification('Invalid GitHub URL. Use format: github.com/owner/repo', 'error');
+            return;
+        }
+
+        // Disable button and show loading state
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const originalText = analyzeBtn.textContent;
+        analyzeBtn.disabled = true;
+        analyzeBtn.textContent = 'Analyzing...';
+
+        // Make API call
+        fetch('/api/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ url: url })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.error || 'Failed to analyze repository');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Navigate to results page
+            window.location.href = `/results?url=${encodeURIComponent(url)}`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification(error.message || 'Failed to analyze the repository. Please try again.', 'error');
+            analyzeBtn.disabled = false;
+            analyzeBtn.textContent = originalText;
+        });
+    }
 </script>
 {% endblock %}
