@@ -1,8 +1,6 @@
 import requests
 
-print("========================================")
 print("RepoPilot AI - Feature Implementation")
-print("========================================")
 print()
 
 # Test with multiple repos
@@ -29,7 +27,5 @@ for repo in test_repos:
     else:
         print(f'Error fetching {repo}: {response.status_code}')
         print()
-
-print("========================================")
+        
 print("All features working correctly!")
-print("========================================")
