@@ -10,7 +10,7 @@ app = Flask(__name__)
 GITHUB_API_BASE = "https://api.github.com"
 
 
-# ==================== Helper Functions ====================
+# Helper Functions
 
 def validate_github_url(url):
     """
@@ -104,7 +104,7 @@ def extract_repo_info(repo_data):
         return {'error': f'Error processing repository data: {str(e)}'}
 
 
-# ==================== Routes ====================
+# Routes
 
 @app.route('/')
 def home():
