@@ -68,17 +68,12 @@ RepoPilotAI/
      source venv/bin/activate
      ```
 
-4. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-5. **Run the application**
+4. **Run the application**
    ```bash
    python app.py
    ```
 
-6. **Access the application**
+5. **Access the application**
    - Open your browser and navigate to: `http://localhost:5000`
 
 ## Development Roadmap
