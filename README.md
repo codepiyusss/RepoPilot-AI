@@ -20,25 +20,6 @@ RepoPilot AI is a GitHub Repository Analyzer that automatically analyzes reposit
 - **Database**: SQLite (future)
 - **Design**: Modern, responsive, dark mode
 
-## Project Structure
-
-```
-RepoPilotAI/
-├── app.py                 # Flask application
-├── requirements.txt       # Python dependencies
-├── README.md             # This file
-├── static/
-│   ├── css/
-│   │   └── style.css     # Main stylesheet
-│   └── js/
-│       └── main.js       # Client-side JavaScript
-├── templates/
-│   ├── base.html         # Base template
-│   ├── index.html        # Homepage
-│   └── about.html        # About page
-├── database/             # Database files (future)
-└── uploads/              # Uploaded files (future)
-```
 
 ## Installation & Setup
 
@@ -209,5 +190,9 @@ Run API tests:
 ```bash
 python test_api.py
 ```
+---
+### Screenshots -
 
-For questions or support, please open an issue on GitHub.
+<img width="1919" height="912" alt="Screenshot 2026-06-03 220529" src="https://github.com/user-attachments/assets/0e2458d9-7ac5-4d21-87a1-ee213edbd224" />
+<img width="1919" height="911" alt="Screenshot 2026-06-03 220551" src="https://github.com/user-attachments/assets/ea72e8c7-a608-4557-8858-7bc66740e5bd" />
+> For questions or support, please open an issue on GitHub.
