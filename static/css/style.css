@@ -744,7 +744,7 @@ main {
     background: var(--accent-blue);
 }
 
-/* ==================== Results Page Styles ==================== */
+/* ---------------> Results Page Styles */
 
 /* Container & Layout */
 .results-container {
@@ -772,7 +772,7 @@ main {
     display: none !important;
 }
 
-/* ========== Loading State ========== */
+/* Loading State */
 .loading-state {
     min-height: 60vh;
     display: flex;
@@ -810,7 +810,7 @@ main {
     font-size: 0.95rem;
 }
 
-/* ========== Error State ========== */
+/* Error State */
 .error-state {
     min-height: 60vh;
     display: flex;
@@ -847,7 +847,7 @@ main {
     margin-bottom: 1rem;
 }
 
-/* ========== Results State ========== */
+/* Results State */
 .results-state {
     animation: fadeIn 0.3s ease-out;
 }
