@@ -42,4 +42,4 @@ data = response.json()
 print(f'  Owner: {data["owner"]}')
 print(f'  ✓ PASS\n')
 
-print('All tests passed! ✓')
+print('All tests passed!')
