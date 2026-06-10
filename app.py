@@ -14,15 +14,7 @@ GITHUB_API_BASE = "https://api.github.com"
 # Helper Functions
 
 def validate_github_url(url):
-    """
-    Validate GitHub repository URL
-    
-    Args:
-        url (str): The GitHub URL to validate
-        
-    Returns:
-        dict: {'valid': bool, 'owner': str, 'repo': str, 'error': str}
-    """
+
     if not url or not isinstance(url, str):
         return {'valid': False, 'error': 'Invalid URL format'}
     
@@ -40,16 +32,6 @@ def validate_github_url(url):
 
 
 def fetch_repository_data(owner, repo):
-    """
-    Fetch repository data from GitHub API
-    
-    Args:
-        owner (str): Repository owner username
-        repo (str): Repository name
-        
-    Returns:
-        dict: Repository data or error
-    """
     try:
         url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}"
         response = requests.get(url, timeout=10)
@@ -70,15 +52,6 @@ def fetch_repository_data(owner, repo):
 
 
 def extract_repo_info(repo_data):
-    """
-    Extract relevant repository information from GitHub API response
-    
-    Args:
-        repo_data (dict): Raw data from GitHub API
-        
-    Returns:
-        dict: Extracted and formatted repository information
-    """
     try:
         created_at = datetime.fromisoformat(repo_data.get('created_at', '').replace('Z', '+00:00'))
         updated_at = datetime.fromisoformat(repo_data.get('updated_at', '').replace('Z', '+00:00'))
@@ -109,29 +82,16 @@ def extract_repo_info(repo_data):
 
 @app.route('/')
 def home():
-    """Homepage route"""
     return render_template('index.html')
 
 
 @app.route('/about')
 def about():
-    """About page route"""
     return render_template('about.html')
 
 
 @app.route('/api/analyze', methods=['POST'])
 def analyze_repository():
-    """
-    API endpoint to analyze a GitHub repository
-    
-    Expected JSON:
-        {
-            "url": "https://github.com/owner/repo"
-        }
-    
-    Returns:
-        JSON with repository information or error
-    """
     data = request.get_json()
     
     if not data or 'url' not in data:
@@ -160,28 +120,11 @@ def analyze_repository():
 
 @app.route('/results')
 def results():
-    """Results/Dashboard page"""
     return render_template('results.html')
 
 
 @app.route('/api/generate-readme', methods=['POST'])
 def api_generate_readme():
-    """
-    API endpoint to generate README for a repository
-    
-    Expected JSON:
-        {
-            "repo_data": {
-                "name": "repo-name",
-                "owner": "owner-name",
-                "description": "...",
-                ...
-            }
-        }
-    
-    Returns:
-        JSON with generated README content or error
-    """
     try:
         data = request.get_json()
         
@@ -216,17 +159,6 @@ def api_generate_readme():
 
 @app.route('/api/download-readme', methods=['POST'])
 def api_download_readme():
-    """
-    API endpoint to handle README download
-    
-    Expected JSON:
-        {
-            "readme_content": "# Markdown content..."
-        }
-    
-    Returns:
-        README.md file or error
-    """
     try:
         data = request.get_json()
         
