@@ -164,5 +164,88 @@ def results():
     return render_template('results.html')
 
 
+@app.route('/api/generate-readme', methods=['POST'])
+def api_generate_readme():
+    """
+    API endpoint to generate README for a repository
+    
+    Expected JSON:
+        {
+            "repo_data": {
+                "name": "repo-name",
+                "owner": "owner-name",
+                "description": "...",
+                ...
+            }
+        }
+    
+    Returns:
+        JSON with generated README content or error
+    """
+    try:
+        data = request.get_json()
+        
+        if not data or 'repo_data' not in data:
+            return jsonify({'error': 'No repository data provided'}), 400
+        
+        repo_data = data['repo_data']
+        
+        # Generate README using the service
+        result = generate_readme(repo_data)
+        
+        if result['success']:
+            return jsonify({
+                'success': True,
+                'readme': result['readme'],
+                'message': result['message']
+            }), 200
+        else:
+            return jsonify({
+                'success': False,
+                'error': result.get('error', 'Unknown error'),
+                'message': result.get('message', 'Failed to generate README')
+            }), 500
+            
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': 'An error occurred while generating README'
+        }), 500
+
+
+@app.route('/api/download-readme', methods=['POST'])
+def api_download_readme():
+    """
+    API endpoint to handle README download
+    
+    Expected JSON:
+        {
+            "readme_content": "# Markdown content..."
+        }
+    
+    Returns:
+        README.md file or error
+    """
+    try:
+        data = request.get_json()
+        
+        if not data or 'readme_content' not in data:
+            return jsonify({'error': 'No README content provided'}), 400
+        
+        readme_content = data['readme_content']
+        
+        # Create response with file download
+        from flask import Response
+        return Response(
+            readme_content,
+            mimetype='text/markdown',
+            headers={'Content-Disposition': 'attachment; filename=README.md'}
+        )
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
