@@ -128,19 +128,16 @@
         <section class="repo-details">
             <div class="container">
                 <div class="details-grid">
-                    <!-- Primary Language -->
                     <div class="detail-card">
                         <h3>Primary Language</h3>
                         <p id="detailLanguage" class="detail-value">—</p>
                     </div>
 
-                    <!-- License -->
                     <div class="detail-card">
                         <h3>License</h3>
                         <p id="detailLicense" class="detail-value">—</p>
                     </div>
 
-                    <!-- Homepage -->
                     <div class="detail-card">
                         <h3>Homepage</h3>
                         <p id="detailHomepage" class="detail-value">
@@ -148,19 +145,16 @@
                         </p>
                     </div>
 
-                    <!-- Repository Created -->
                     <div class="detail-card">
                         <h3>Created</h3>
                         <p id="detailCreated" class="detail-value">—</p>
                     </div>
 
-                    <!-- Last Updated -->
                     <div class="detail-card">
                         <h3>Last Updated</h3>
                         <p id="detailUpdated" class="detail-value">—</p>
                     </div>
 
-                    <!-- Visibility -->
                     <div class="detail-card">
                         <h3>Visibility</h3>
                         <p id="detailVisibility" class="detail-value">—</p>
@@ -169,11 +163,73 @@
             </div>
         </section>
 
-        <!-- Topics Section (if available) -->
         <section id="topicsSection" class="topics-section hidden">
             <div class="container">
                 <h2>Topics</h2>
                 <div id="topicsList" class="topics-list"></div>
+            </div>
+        </section>
+        
+        <!-- README Generator Section -->
+        <section class="readme-generator-section">
+            <div class="container">
+                <div class="generator-header">
+                    <h2>README Generator</h2>
+                    <p>Generate a professional README.md for this repository</p>
+                </div>
+
+                <div class="generator-content">
+                    <div class="generator-controls">
+                        <button id="generateReadmeBtn" class="btn btn-primary" onclick="generateReadmeContent()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"></polyline>
+                                <line x1="12" y1="12" x2="20" y2="7.5"></line>
+                                <line x1="12" y1="12" x2="12" y2="21"></line>
+                                <line x1="12" y1="12" x2="4" y2="7.5"></line>
+                            </svg>
+                            Generate README
+                        </button>
+                        <div id="generatorStatus" class="generator-status hidden">
+                            <span class="spinner-small"></span>
+                            <span>Generating README...</span>
+                        </div>
+                    </div>
+
+
+                    <div id="readmePreviewPanel" class="readme-preview-panel hidden">
+                        <div class="preview-header">
+                            <h3>README Preview</h3>
+                            <div class="preview-actions">
+                                <button id="copyReadmeBtn" class="btn btn-secondary btn-small" onclick="copyToClipboard()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                    </svg>
+                                    Copy
+                                </button>
+                                <button id="downloadReadmeBtn" class="btn btn-secondary btn-small" onclick="downloadReadme()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="readmeContent" class="readme-content">
+                        </div>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div id="generatorError" class="generator-error hidden">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                        </svg>
+                        <span id="errorMessage"></span>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
@@ -222,7 +278,8 @@
     }
 
     function displayResults(data) {
-        // Populate repository info
+        currentRepoData = data;
+
         document.getElementById('repoName').textContent = `${data.owner}/${data.name}`;
         document.getElementById('repoDescription').textContent = data.description;
         document.getElementById('repoUrl').href = data.url;
@@ -292,6 +349,194 @@
             return (num / 1000).toFixed(1) + 'K';
         }
         return num.toString();
+    }
+    
+    let currentRepoData = null;
+
+    function generateReadmeContent() {
+        if (!currentRepoData) {
+            showGeneratorError('Repository data not available');
+            return;
+        }
+
+        showGeneratorLoading();
+        hideGeneratorError();
+
+        fetch('/api/generate-readme', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ repo_data: currentRepoData })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.error || 'Failed to generate README');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                displayReadmePreview(data.readme);
+            } else {
+                showGeneratorError(data.error || 'Failed to generate README');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showGeneratorError(error.message || 'Failed to generate README. Please try again.');
+        })
+        .finally(() => {
+            hideGeneratorLoading();
+        });
+    }
+
+    function displayReadmePreview(markdownContent) {
+        const previewPanel = document.getElementById('readmePreviewPanel');
+        const contentDiv = document.getElementById('readmeContent');
+
+        // Store the markdown content for download/copy
+        contentDiv.dataset.markdown = markdownContent;
+
+        // Render markdown as HTML (simple conversion)
+        contentDiv.innerHTML = markdownToHtml(markdownContent);
+
+        previewPanel.classList.remove('hidden');
+
+        // Scroll to preview
+        setTimeout(() => {
+            previewPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
+
+    function markdownToHtml(markdown) {
+        let html = markdown;
+
+        // Headers
+        html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
+        html = html.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+
+        // Bold
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+
+        // Italic
+        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+
+        // Code blocks
+        html = html.replace(/```([\s\S]*?)```/g, function(match, code) {
+            const lang = code.split('\n')[0].trim();
+            const codeContent = code.replace(/^.*?\n/, '').trim();
+            return '<pre><code class="language-' + lang + '">' + escapeHtml(codeContent) + '</code></pre>';
+        });
+
+        // Inline code
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        // Links
+        html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+        // Lists
+        html = html.replace(/^\* (.*?)$/gm, '<li>$1</li>');
+        html = html.replace(/^\- (.*?)$/gm, '<li>$1</li>');
+        html = html.replace(/^(\d+)\. (.*?)$/gm, '<li>$2</li>');
+        html = html.replace(/<li>(.*?)<\/li>(\n<li>|$)/g, '<li>$1</li>');
+        html = html.replace(/(<li>.*?<\/li>)/s, '<ul>$1</ul>');
+
+        // Line breaks
+        html = html.replace(/\n\n/g, '</p><p>');
+        html = html.replace(/\n/g, '<br>');
+
+        // Horizontal rules
+        html = html.replace(/^---$/gm, '<hr>');
+
+        // Wrap in paragraphs
+        html = '<p>' + html + '</p>';
+        html = html.replace(/<p><h/g, '<h');
+        html = html.replace(/<\/h\d><\/p>/g, '</h>');
+        html = html.replace(/<p><ul>/g, '<ul>');
+        html = html.replace(/<\/ul><\/p>/g, '</ul>');
+        html = html.replace(/<p><pre>/g, '<pre>');
+        html = html.replace(/<\/pre><\/p>/g, '</pre>');
+        html = html.replace(/<p><hr/g, '<hr');
+        html = html.replace(/<hr><\/p>/g, '<hr>');
+        html = html.replace(/<p><\/p>/g, '');
+
+        return html;
+    }
+
+    function escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function copyToClipboard() {
+        const contentDiv = document.getElementById('readmeContent');
+        const markdownContent = contentDiv.dataset.markdown;
+
+        if (!markdownContent) {
+            showNotification('No README content to copy', 'error');
+            return;
+        }
+
+        navigator.clipboard.writeText(markdownContent).then(() => {
+            showNotification('README copied to clipboard!', 'success');
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            showNotification('Failed to copy to clipboard', 'error');
+        });
+    }
+
+    function downloadReadme() {
+        const contentDiv = document.getElementById('readmeContent');
+        const markdownContent = contentDiv.dataset.markdown;
+
+        if (!markdownContent) {
+            showNotification('No README content to download', 'error');
+            return;
+        }
+
+        // Create blob and download
+        const blob = new Blob([markdownContent], { type: 'text/markdown' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'README.md';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        showNotification('README.md downloaded!', 'success');
+    }
+
+    function showGeneratorLoading() {
+        document.getElementById('generatorStatus').classList.remove('hidden');
+    }
+
+    function hideGeneratorLoading() {
+        document.getElementById('generatorStatus').classList.add('hidden');
+    }
+
+    function showGeneratorError(message) {
+        const errorDiv = document.getElementById('generatorError');
+        const errorMsg = document.getElementById('errorMessage');
+        errorMsg.textContent = message;
+        errorDiv.classList.remove('hidden');
+    }
+
+    function hideGeneratorError() {
+        document.getElementById('generatorError').classList.add('hidden');
     }
 </script>
 {% endblock %}
