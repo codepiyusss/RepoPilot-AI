@@ -73,7 +73,7 @@ RepoPilot AI is a GitHub Repository Analyzer that automatically analyzes reposit
 - [x] GitHub API integration (Completed)
 - [x] Repository information fetching (Completed)
 - [x] Results dashboard with statistics (Completed)
-- [ ] README generation
+- [x] README generation
 - [ ] Architecture visualization
 - [ ] Code analysis
 
