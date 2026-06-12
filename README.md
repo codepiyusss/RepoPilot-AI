@@ -134,3 +134,13 @@ Analyze a GitHub repository and return its information.
   "error": "Error message describing what went wrong"
 }
 ```
+
+## Browser Support
+
+- Chrome/Chromium (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Design Philosophy
+
