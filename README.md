@@ -144,3 +144,29 @@ Analyze a GitHub repository and return its information.
 
 ## Design Philosophy
 
+RepoPilot AI follows modern SaaS design principles:
+- Dark mode for reduced eye strain
+- Clean, professional interface
+- Responsive design for all devices
+- Smooth animations and transitions
+- Developer-focused experience
+
+## License
+
+MIT License - Feel free to use this project for learning and development
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
+
+## Author
+
+Created as a comprehensive GitHub Repository Analysis tool for developers and teams.
+
+---
+
+**Current Version**: 1.0.1 (Repository Analysis Release)
+**Status**: Feature Complete - Phase 2 Core Features Implemented
+
+## Implemented Features
+
