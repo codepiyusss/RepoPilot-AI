@@ -4,8 +4,6 @@ from datetime import datetime
 
 
 class ReadmeGenerator:
-    """Main class for README generation with modular architecture"""
-
     def __init__(self, repo_data):
 
         self.repo_data = repo_data
