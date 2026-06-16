@@ -84,6 +84,7 @@ class ReadmeGenerator:
             installation += "```bash\n"
             installation += "python app.py\n"
             installation += "```\n"
+            
         elif language == 'JavaScript':
             installation += "### Prerequisites\n"
             installation += "- Node.js (v14 or higher)\n"
