@@ -6,7 +6,9 @@ from urllib.parse import urlparse
 from services.readme_generator import generate_readme
 
 app = Flask(__name__)
-app.wsgi_app = app.wsgi_app
+
+handler = app
+
 # GitHub API Configuration
 GITHUB_API_BASE = "https://api.github.com"
 
