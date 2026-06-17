@@ -360,8 +360,6 @@ main {
     margin-bottom: 2rem;
 }
 
-/* Footer */
-
 .footer {
     background-color: var(--bg-primary);
     border-top: 1px solid var(--border-color);
@@ -419,7 +417,6 @@ main {
     font-size: 0.8rem;
 }
 
-/* About Page */
 
 .about-section {
     padding: 60px 0;
@@ -592,8 +589,6 @@ main {
     margin-bottom: 1.5rem;
 }
 
-/* Responsive Design */
-
 @media (max-width: 768px) {
     h1 {
         font-size: 1.75rem;
@@ -703,8 +698,6 @@ main {
     }
 }
 
-/* Minimal Animations */
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -718,7 +711,6 @@ main {
     animation: fadeIn 0.3s ease-out;
 }
 
-/* Scrollbar Styling */
 
 ::-webkit-scrollbar {
     width: 10px;
@@ -737,9 +729,7 @@ main {
     background: var(--accent-blue);
 }
 
-/* ---------------> Results Page Styles */
 
-/* Container & Layout */
 .results-container {
     min-height: 100vh;
     background-color: var(--bg-primary);
@@ -760,12 +750,10 @@ main {
     color: var(--hover-blue);
 }
 
-/* Hidden/Visible States */
 .hidden {
     display: none !important;
 }
 
-/* Loading State */
 .loading-state {
     min-height: 60vh;
     display: flex;
@@ -803,7 +791,6 @@ main {
     font-size: 0.95rem;
 }
 
-/* Error State */
 .error-state {
     min-height: 60vh;
     display: flex;
@@ -840,12 +827,10 @@ main {
     margin-bottom: 1rem;
 }
 
-/* Results State */
 .results-state {
     animation: fadeIn 0.3s ease-out;
 }
 
-/* Repository Overview */
 .repo-overview {
     padding: 3rem 0 2rem;
     border-bottom: 1px solid var(--border-color);
@@ -935,7 +920,6 @@ main {
     color: var(--hover-blue);
 }
 
-/* Repository Statistics */
 .repo-stats {
     padding: 3rem 0;
     border-bottom: 1px solid var(--border-color);
@@ -1015,7 +999,6 @@ main {
     margin: 0.25rem 0 0;
 }
 
-/* Repository Details */
 .repo-details {
     padding: 3rem 0;
     border-bottom: 1px solid var(--border-color);
@@ -1056,7 +1039,6 @@ main {
     text-decoration: underline;
 }
 
-/* Topics Section */
 .topics-section {
     padding: 3rem 0;
     border-bottom: 1px solid var(--border-color);
@@ -1092,7 +1074,6 @@ main {
     background-color: var(--bg-tertiary);
 }
 
-/* Responsive Design for Results */
 @media (max-width: 768px) {
     .overview-header {
         flex-direction: column;
@@ -1166,7 +1147,6 @@ main {
     }
 }
 
-/* README Generator Styles*/
 
 .readme-generator-section {
     padding: 3rem 0;
