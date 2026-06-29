@@ -46,6 +46,11 @@ def fetch_repository_data(owner, repo):
         
         return {'data': response.json(), 'status': 200}
         
+    except requests.exceptions.Timeout:
+        return {'error': 'Request timeout. Please check your connection', 'status': 408}
+    except requests.exceptions.RequestException as e:
+        return {'error': f'Network error: {str(e)}', 'status': 500}
+
 
 def extract_repo_info(repo_data):
     try:
