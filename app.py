@@ -32,24 +32,6 @@ def validate_github_url(url):
     owner, repo = match.groups()
     return {'valid': True, 'owner': owner, 'repo': repo}
 
-def fetch_repository_data(owner, repo):
-    try:
-        url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}"
-        response = requests.get(url, timeout=10)
-        
-        if response.status_code == 404:
-            return {'error': 'Repository not found', 'status': 404}
-        elif response.status_code == 403:
-            return {'error': 'API rate limit exceeded. Please try again later', 'status': 403}
-        elif response.status_code != 200:
-            return {'error': f'GitHub API error: {response.status_code}', 'status': response.status_code}
-        
-        return {'data': response.json(), 'status': 200}
-        
-    except requests.exceptions.Timeout:
-        return {'error': 'Request timeout. Please check your connection', 'status': 408}
-    except requests.exceptions.RequestException as e:
-        return {'error': f'Network error: {str(e)}', 'status': 500}
 
 
 def extract_repo_info(repo_data):
