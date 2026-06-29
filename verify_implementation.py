@@ -1,6 +1,6 @@
 import requests
 
-print("RepoPilot AI - Feature Implementation")
+print("RepoPilot - Feature Implementation")
 print()
 
 # Test with multiple repos
@@ -15,7 +15,7 @@ print()
 
 for repo in test_repos:
     url = f'https://github.com/{repo}'
-    response = requests.post('http://localhost:5000/api/analyze', json={'url': url}, timeout=10)
+    response = requests.post('https://repo-pilot-ai-tau.vercel.app/api/analyze', json={'url': url}, timeout=10)
     
     if response.status_code == 200:
         data = response.json()
