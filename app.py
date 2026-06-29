@@ -51,7 +51,6 @@ def fetch_repository_data(owner, repo):
     except requests.exceptions.RequestException as e:
         return {'error': f'Network error: {str(e)}', 'status': 500}
 
-
 def extract_repo_info(repo_data):
     try:
         created_at = datetime.fromisoformat(repo_data.get('created_at', '').replace('Z', '+00:00'))
