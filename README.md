@@ -21,42 +21,6 @@ RepoPilot AI is a GitHub Repository Analyzer that automatically analyzes reposit
 - **Design**: Modern, responsive, dark mode
 
 
-## Installation & Setup
-
-### Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
-
-### Steps
-
-1. **Clone or navigate to the project directory**
-   ```bash
-   cd RepoPilotAI
-   ```
-
-2. **Create a virtual environment (recommended)**
-   ```bash
-   python -m venv venv
-   ```
-
-3. **Activate virtual environment**
-   - **Windows:**
-     ```bash
-     venv\Scripts\activate
-     ```
-   - **macOS/Linux:**
-     ```bash
-     source venv/bin/activate
-     ```
-
-4. **Run the application**
-   ```bash
-   python app.py
-   ```
-
-5. **Access the application**
-   - Open your browser and navigate to: `http://localhost:5000`
-
 ## Development Roadmap
 
 ### Phase 1: Foundation (Current)
