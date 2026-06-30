@@ -35,9 +35,8 @@ function initializeSmoothScroll() {
 }
 
 /**
- * Validate GitHub repository URL
- * @param {string} url - The repository URL to validate
- * @returns {boolean} - if valid Display True, false otherwise
+ * @param {string} url
+ * @returns {boolean}
  */
 
 function isValidGitHubUrl(url) {
@@ -46,9 +45,8 @@ function isValidGitHubUrl(url) {
 }
 
 /**
- * Parse repository URL to extract owner and repo
- * @param {string} url - The repository URL
- * @returns {object} - Object with owner and repo properties
+ * @param {string} url 
+ * @returns {object}
  */
 function parseRepoUrl(url) {
     try {
@@ -106,9 +104,8 @@ if (document.readyState === 'loading') {
 }
 
 /**
- * Utility function to show notification messages
- * @param {string} message - The message to display
- * @param {string} type - The type of notification (success, error, info)
+ * @param {string} message
+ * @param {string} type
  */
 function showNotification(message, type = 'info') {
     // Create notification element
@@ -149,11 +146,10 @@ function setupFormHandlers() {
 
 setupFormHandlers();
 
-/**
- * Utility: Debounce function for optimized event handling
- * @param {function} func - The function to debounce
- * @param {number} wait - The wait time in milliseconds
- * @returns {function} - The debounced function
+/** 
+ @param {function} func 
+ @param {number} wait 
+ @returns {function} 
  */
 function debounce(func, wait) {
     let timeout;
@@ -168,10 +164,9 @@ function debounce(func, wait) {
 }
 
 /**
- * Utility: Throttle function for optimized event handling
- * @param {function} func - The function to throttle
- * @param {number} limit - The limit time in milliseconds
- * @returns {function} - The throttled function
+ * @param {function} func
+ * @param {number} limit
+ * @returns {function}
  */
 function throttle(func, limit) {
     let inThrottle;

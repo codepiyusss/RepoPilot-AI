@@ -1,0 +1,542 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Results Page -->
+<div class="results-container">
+    <!-- Back Button -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/" class="breadcrumb-link">← Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading-state hidden">
+        <div class="container">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <h2>Analyzing Repository...</h2>
+                <p>Fetching data from GitHub. This may take a moment.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="error-state hidden">
+        <div class="container">
+            <div class="error-content">
+                <div class="error-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                    </svg>
+                </div>
+                <h2>Oops! Something went wrong</h2>
+                <p id="errorMessage">An error occurred while analyzing the repository.</p>
+                <a href="/" class="btn btn-primary" style="margin-top: 20px;">Try Another Repository</a>
+            </div>
+        </div>
+    </div>
+    <!-- Results State -->
+    <div id="resultsState" class="results-state hidden">
+        <!-- Repository Overview -->
+        <section class="repo-overview">
+            <div class="container">
+                <div class="overview-header">
+                    <div class="owner-info">
+                        <img id="ownerAvatar" src="" alt="Owner" class="owner-avatar">
+                        <div class="repo-info">
+                            <h1 id="repoName"></h1>
+                            <p id="repoDescription" class="repo-description"></p>
+                            <div class="repo-meta">
+                                <span id="repoLanguage" class="meta-badge">
+                                    <span class="lang-dot"></span>
+                                    <span id="languageText"></span>
+                                </span>
+                                <span id="repoVisibility" class="meta-badge"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="repo-actions">
+                        <a id="repoUrl" target="_blank" class="btn btn-outline">View on GitHub</a>
+                        <a href="/" class="btn btn-primary">Analyze Another</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="repo-stats">
+            <div class="container">
+                <div class="stats-grid">
+                    
+                    <!-- Stars -->
+                    <div class="stat-card">
+                        <div class="stat-icon stars">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="starsCount" class="stat-number">0</h3>
+                            <p class="stat-label">Stars</p>
+                        </div>
+                    </div>
+
+                    <!-- Forks -->
+                    <div class="stat-card">
+                        <div class="stat-icon forks">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 2a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h3v2.25l3-3 3 3V20h3a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3H6zm0 2h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="forksCount" class="stat-number">0</h3>
+                            <p class="stat-label">Forks</p>
+                        </div>
+                    </div>
+
+                    <!-- Watchers -->
+                    <div class="stat-card">
+                        <div class="stat-icon watchers">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="watchersCount" class="stat-number">0</h3>
+                            <p class="stat-label">Watchers</p>
+                        </div>
+                    </div>
+
+                    <!-- Open Issues -->
+                    <div class="stat-card">
+                        <div class="stat-icon issues">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="issuesCount" class="stat-number">0</h3>
+                            <p class="stat-label">Open Issues</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Details Section -->
+        <section class="repo-details">
+            <div class="container">
+                <div class="details-grid">
+                    <div class="detail-card">
+                        <h3>Primary Language</h3>
+                        <p id="detailLanguage" class="detail-value">—</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h3>License</h3>
+                        <p id="detailLicense" class="detail-value">—</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h3>Homepage</h3>
+                        <p id="detailHomepage" class="detail-value">
+                            <a id="homepageLink" href="#" target="_blank" style="word-break: break-all;">—</a>
+                        </p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h3>Created</h3>
+                        <p id="detailCreated" class="detail-value">—</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h3>Last Updated</h3>
+                        <p id="detailUpdated" class="detail-value">—</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h3>Visibility</h3>
+                        <p id="detailVisibility" class="detail-value">—</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="topicsSection" class="topics-section hidden">
+            <div class="container">
+                <h2>Topics</h2>
+                <div id="topicsList" class="topics-list"></div>
+            </div>
+        </section>
+        
+        <!-- README Generator Section -->
+        <section class="readme-generator-section">
+            <div class="container">
+                <div class="generator-header">
+                    <h2>README Generator</h2>
+                    <p>Generate a professional README.md for this repository</p>
+                </div>
+
+                <div class="generator-content">
+                    <div class="generator-controls">
+                        <button id="generateReadmeBtn" class="btn btn-primary" onclick="generateReadmeContent()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"></polyline>
+                                <line x1="12" y1="12" x2="20" y2="7.5"></line>
+                                <line x1="12" y1="12" x2="12" y2="21"></line>
+                                <line x1="12" y1="12" x2="4" y2="7.5"></line>
+                            </svg>
+                            Generate README
+                        </button>
+                        <div id="generatorStatus" class="generator-status hidden">
+                            <span class="spinner-small"></span>
+                            <span>Generating README...</span>
+                        </div>
+                    </div>
+
+
+                    <div id="readmePreviewPanel" class="readme-preview-panel hidden">
+                        <div class="preview-header">
+                            <h3>README Preview</h3>
+                            <div class="preview-actions">
+                                <button id="copyReadmeBtn" class="btn btn-secondary btn-small" onclick="copyToClipboard()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                    </svg>
+                                    Copy
+                                </button>
+                                <button id="downloadReadmeBtn" class="btn btn-secondary btn-small" onclick="downloadReadme()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="readmeContent" class="readme-content">
+                        </div>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div id="generatorError" class="generator-error hidden">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                            <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                        </svg>
+                        <span id="errorMessage"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const params = new URLSearchParams(window.location.search);
+        const repoUrl = params.get('url');
+
+        if (repoUrl) {
+            analyzeRepository(repoUrl);
+        } else {
+            showError('No repository URL provided. Please go back and try again.');
+        }
+    });
+
+    function analyzeRepository(url) {
+        showLoading();
+
+        fetch('/api/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ url: url })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.error || 'Failed to analyze repository');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayResults(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError(error.message || 'Failed to analyze the repository. Please try again.');
+        });
+    }
+
+    function displayResults(data) {
+        currentRepoData = data;
+
+        document.getElementById('repoName').textContent = `${data.owner}/${data.name}`;
+        document.getElementById('repoDescription').textContent = data.description;
+        document.getElementById('repoUrl').href = data.url;
+        document.getElementById('ownerAvatar').src = data.owner_avatar;
+        document.getElementById('languageText').textContent = data.language;
+        document.getElementById('repoVisibility').textContent = data.visibility;
+
+        // Populate statistics
+        document.getElementById('starsCount').textContent = formatNumber(data.stars);
+        document.getElementById('forksCount').textContent = formatNumber(data.forks);
+        document.getElementById('watchersCount').textContent = formatNumber(data.watchers);
+        document.getElementById('issuesCount').textContent = formatNumber(data.open_issues);
+
+        // Populate details
+        document.getElementById('detailLanguage').textContent = data.language;
+        document.getElementById('detailLicense').textContent = data.license;
+        document.getElementById('detailCreated').textContent = data.created_at;
+        document.getElementById('detailUpdated').textContent = data.updated_at;
+        document.getElementById('detailVisibility').textContent = data.visibility;
+
+        // Handle homepage
+        if (data.homepage !== 'N/A' && data.homepage) {
+            const link = document.getElementById('homepageLink');
+            link.href = data.homepage;
+            link.textContent = data.homepage;
+        }
+
+        // Handle topics
+        if (data.topics && data.topics.length > 0) {
+            const topicsSection = document.getElementById('topicsSection');
+            const topicsList = document.getElementById('topicsList');
+            topicsList.innerHTML = '';
+            
+            data.topics.forEach(topic => {
+                const badge = document.createElement('span');
+                badge.className = 'topic-badge';
+                badge.textContent = topic;
+                topicsList.appendChild(badge);
+            });
+            
+            topicsSection.classList.remove('hidden');
+        }
+
+        // Show results and hide loading
+        hideLoading();
+        document.getElementById('resultsState').classList.remove('hidden');
+    }
+
+    function showLoading() {
+        document.getElementById('loadingState').classList.remove('hidden');
+    }
+
+    function hideLoading() {
+        document.getElementById('loadingState').classList.add('hidden');
+    }
+
+    function showError(message) {
+        document.getElementById('errorMessage').textContent = message;
+        hideLoading();
+        document.getElementById('errorState').classList.remove('hidden');
+    }
+
+    function formatNumber(num) {
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1) + 'M';
+        } else if (num >= 1000) {
+            return (num / 1000).toFixed(1) + 'K';
+        }
+        return num.toString();
+    }
+    
+    let currentRepoData = null;
+
+    function generateReadmeContent() {
+        if (!currentRepoData) {
+            showGeneratorError('Repository data not available');
+            return;
+        }
+
+        showGeneratorLoading();
+        hideGeneratorError();
+
+        fetch('/api/generate-readme', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ repo_data: currentRepoData })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.error || 'Failed to generate README');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                displayReadmePreview(data.readme);
+            } else {
+                showGeneratorError(data.error || 'Failed to generate README');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showGeneratorError(error.message || 'Failed to generate README. Please try again.');
+        })
+        .finally(() => {
+            hideGeneratorLoading();
+        });
+    }
+
+    function displayReadmePreview(markdownContent) {
+        const previewPanel = document.getElementById('readmePreviewPanel');
+        const contentDiv = document.getElementById('readmeContent');
+
+        // Store the markdown content for download/copy
+        contentDiv.dataset.markdown = markdownContent;
+
+        // Render markdown as HTML (simple conversion)
+        contentDiv.innerHTML = markdownToHtml(markdownContent);
+
+        previewPanel.classList.remove('hidden');
+
+        // Scroll to preview
+        setTimeout(() => {
+            previewPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
+
+    function markdownToHtml(markdown) {
+        let html = markdown;
+
+        // Headers
+        html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
+        html = html.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+
+        // Bold
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+
+        // Italic
+        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+
+        // Code blocks
+        html = html.replace(/```([\s\S]*?)```/g, function(match, code) {
+            const lang = code.split('\n')[0].trim();
+            const codeContent = code.replace(/^.*?\n/, '').trim();
+            return '<pre><code class="language-' + lang + '">' + escapeHtml(codeContent) + '</code></pre>';
+        });
+
+        // Inline code
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        // Links
+        html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+        // Lists
+        html = html.replace(/^\* (.*?)$/gm, '<li>$1</li>');
+        html = html.replace(/^\- (.*?)$/gm, '<li>$1</li>');
+        html = html.replace(/^(\d+)\. (.*?)$/gm, '<li>$2</li>');
+        html = html.replace(/<li>(.*?)<\/li>(\n<li>|$)/g, '<li>$1</li>');
+        html = html.replace(/(<li>.*?<\/li>)/s, '<ul>$1</ul>');
+
+        // Line breaks
+        html = html.replace(/\n\n/g, '</p><p>');
+        html = html.replace(/\n/g, '<br>');
+
+        // Horizontal rules
+        html = html.replace(/^---$/gm, '<hr>');
+
+        // Wrap in paragraphs
+        html = '<p>' + html + '</p>';
+        html = html.replace(/<p><h/g, '<h');
+        html = html.replace(/<\/h\d><\/p>/g, '</h>');
+        html = html.replace(/<p><ul>/g, '<ul>');
+        html = html.replace(/<\/ul><\/p>/g, '</ul>');
+        html = html.replace(/<p><pre>/g, '<pre>');
+        html = html.replace(/<\/pre><\/p>/g, '</pre>');
+        html = html.replace(/<p><hr/g, '<hr');
+        html = html.replace(/<hr><\/p>/g, '<hr>');
+        html = html.replace(/<p><\/p>/g, '');
+
+        return html;
+    }
+
+    function escapeHtml(text) {
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function copyToClipboard() {
+        const contentDiv = document.getElementById('readmeContent');
+        const markdownContent = contentDiv.dataset.markdown;
+
+        if (!markdownContent) {
+            showNotification('No README content to copy', 'error');
+            return;
+        }
+
+        navigator.clipboard.writeText(markdownContent).then(() => {
+            showNotification('README copied to clipboard!', 'success');
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            showNotification('Failed to copy to clipboard', 'error');
+        });
+    }
+
+    function downloadReadme() {
+        const contentDiv = document.getElementById('readmeContent');
+        const markdownContent = contentDiv.dataset.markdown;
+
+        if (!markdownContent) {
+            showNotification('No README content to download', 'error');
+            return;
+        }
+
+        // Create blob and download
+        const blob = new Blob([markdownContent], { type: 'text/markdown' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'README.md';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        showNotification('README.md downloaded!', 'success');
+    }
+
+    function showGeneratorLoading() {
+        document.getElementById('generatorStatus').classList.remove('hidden');
+    }
+
+    function hideGeneratorLoading() {
+        document.getElementById('generatorStatus').classList.add('hidden');
+    }
+
+    function showGeneratorError(message) {
+        const errorDiv = document.getElementById('generatorError');
+        const errorMsg = document.getElementById('errorMessage');
+        errorMsg.textContent = message;
+        errorDiv.classList.remove('hidden');
+    }
+
+    function hideGeneratorError() {
+        document.getElementById('generatorError').classList.add('hidden');
+    }
+</script>
+{% endblock %}
