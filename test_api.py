@@ -8,7 +8,7 @@ data = response.json()
 print(f'  Owner: {data["owner"]}')
 print(f'  Stars: {data["stars"]}')
 print(f'  Language: {data["language"]}')
-print('   PASS\n')
+print('   TEST PASSED\n')
 
 
 
@@ -18,7 +18,7 @@ assert response.status_code == 400, f"Expected 400, got {response.status_code}"
 data = response.json()
 
 print(f'  Error: {data["error"]}')
-print('   PASS\n')
+print('   TEST PASSED\n')
 
 
 
@@ -28,7 +28,7 @@ assert response.status_code == 404, f"Expected 404, got {response.status_code}"
 data = response.json()
 
 print(f'  Error: {data["error"]}')
-print('   PASS\n')
+print('   TEST PASSED\n')
 
 
 
@@ -38,7 +38,7 @@ assert response.status_code == 400, f"Expected 400, got {response.status_code}"
 data = response.json()
 
 print(f'  Error: {data["error"]}')
-print('   PASS\n')
+print('   TEST PASSED\n')
 
 
 
