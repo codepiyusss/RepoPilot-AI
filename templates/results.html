@@ -169,11 +169,7 @@
                 <div id="topicsList" class="topics-list"></div>
             </div>
         </section>
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
         <!-- README Generator Section -->
         <section class="readme-generator-section">
             <div class="container">
@@ -183,10 +179,7 @@
                 </div>
 
                 <div class="generator-content">
-<<<<<<< HEAD
-                    <!-- Generator Controls -->
-=======
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
+
                     <div class="generator-controls">
                         <button id="generateReadmeBtn" class="btn btn-primary" onclick="generateReadmeContent()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
@@ -203,11 +196,7 @@
                         </div>
                     </div>
 
-<<<<<<< HEAD
-                    <!-- README Preview Panel -->
-=======
 
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
                     <div id="readmePreviewPanel" class="readme-preview-panel hidden">
                         <div class="preview-header">
                             <h3>README Preview</h3>
@@ -230,13 +219,6 @@
                             </div>
                         </div>
 
-<<<<<<< HEAD
-                        <!-- Markdown Preview -->
-                        <div id="readmeContent" class="readme-content">
-                            <!-- README will be rendered here -->
-=======
-                        <div id="readmeContent" class="readme-content">
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
                         </div>
                     </div>
 
@@ -296,15 +278,7 @@
     }
 
     function displayResults(data) {
-<<<<<<< HEAD
-        // Store repo data for README generator
-        currentRepoData = data;
 
-        // Populate repository info
-=======
-        currentRepoData = data;
-
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
         document.getElementById('repoName').textContent = `${data.owner}/${data.name}`;
         document.getElementById('repoDescription').textContent = data.description;
         document.getElementById('repoUrl').href = data.url;
@@ -375,13 +349,7 @@
         }
         return num.toString();
     }
-<<<<<<< HEAD
 
-    // ==================== README Generator Functions ====================
-
-=======
-    
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
     let currentRepoData = null;
 
     function generateReadmeContent() {
@@ -568,10 +536,6 @@
 
     function hideGeneratorError() {
         document.getElementById('generatorError').classList.add('hidden');
-<<<<<<< HEAD
-    }</script>
-=======
     }
 </script>
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
 {% endblock %}
