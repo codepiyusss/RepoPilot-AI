@@ -4,10 +4,7 @@ import re
 from datetime import datetime
 from urllib.parse import urlparse
 from services.readme_generator import generate_readme
-<<<<<<< HEAD
-=======
 
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
 
 app = Flask(__name__)
 
@@ -37,10 +34,7 @@ def validate_github_url(url):
     return {'valid': True, 'owner': owner, 'repo': repo}
 
 def fetch_repository_data(owner, repo):
-<<<<<<< HEAD
 
-=======
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
     try:
         url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}"
         response = requests.get(url, timeout=10)
@@ -60,10 +54,7 @@ def fetch_repository_data(owner, repo):
         return {'error': f'Network error: {str(e)}', 'status': 500}
 
 def extract_repo_info(repo_data):
-<<<<<<< HEAD
 
-=======
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
     try:
         created_at = datetime.fromisoformat(repo_data.get('created_at', '').replace('Z', '+00:00'))
         updated_at = datetime.fromisoformat(repo_data.get('updated_at', '').replace('Z', '+00:00'))
@@ -134,10 +125,7 @@ def results():
     return render_template('results.html')
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
 @app.route('/api/generate-readme', methods=['POST'])
 def api_generate_readme():
     try:
