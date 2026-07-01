@@ -132,25 +132,21 @@
     });
 
     function analyzeRepository(url) {
-        // Validate URL format
         if (!url) {
             showNotification('Please enter a GitHub repository URL', 'error');
             return;
         }
 
-        // Validate GitHub URL format
         if (!isValidGitHubUrl(url)) {
             showNotification('Invalid GitHub URL. Use format: github.com/owner/repo', 'error');
             return;
         }
 
-        // Disable button and show loading state
         const analyzeBtn = document.getElementById('analyzeBtn');
         const originalText = analyzeBtn.textContent;
         analyzeBtn.disabled = true;
         analyzeBtn.textContent = 'Analyzing...';
 
-        // Make API call
         fetch('/api/analyze', {
             method: 'POST',
             headers: {
@@ -167,7 +163,7 @@
             return response.json();
         })
         .then(data => {
-            // Navigate to results page
+            
             window.location.href = `/results?url=${encodeURIComponent(url)}`;
         })
         .catch(error => {

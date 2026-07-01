@@ -4,14 +4,20 @@ import re
 from datetime import datetime
 from urllib.parse import urlparse
 from services.readme_generator import generate_readme
+<<<<<<< HEAD
+=======
+
+>>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
 
 app = Flask(__name__)
+
+handler = app
 
 # GitHub API Configuration
 GITHUB_API_BASE = "https://api.github.com"
 
 
-# ==================== Helper Functions ====================
+# Helper Functions
 
 def validate_github_url(url):
 
@@ -30,9 +36,11 @@ def validate_github_url(url):
     owner, repo = match.groups()
     return {'valid': True, 'owner': owner, 'repo': repo}
 
-
 def fetch_repository_data(owner, repo):
+<<<<<<< HEAD
 
+=======
+>>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
     try:
         url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}"
         response = requests.get(url, timeout=10)
@@ -51,9 +59,11 @@ def fetch_repository_data(owner, repo):
     except requests.exceptions.RequestException as e:
         return {'error': f'Network error: {str(e)}', 'status': 500}
 
-
 def extract_repo_info(repo_data):
+<<<<<<< HEAD
 
+=======
+>>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
     try:
         created_at = datetime.fromisoformat(repo_data.get('created_at', '').replace('Z', '+00:00'))
         updated_at = datetime.fromisoformat(repo_data.get('updated_at', '').replace('Z', '+00:00'))
@@ -79,18 +89,15 @@ def extract_repo_info(repo_data):
     except Exception as e:
         return {'error': f'Error processing repository data: {str(e)}'}
 
-
-# ==================== Routes ====================
+# Routes
 
 @app.route('/')
 def home():
-    """Homepage route"""
     return render_template('index.html')
 
 
 @app.route('/about')
 def about():
-    """About page route"""
     return render_template('about.html')
 
 
@@ -124,10 +131,13 @@ def analyze_repository():
 
 @app.route('/results')
 def results():
-    """Results/Dashboard page"""
     return render_template('results.html')
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
 @app.route('/api/generate-readme', methods=['POST'])
 def api_generate_readme():
     try:
