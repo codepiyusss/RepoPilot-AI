@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 class ReadmeGenerator:
+
     def __init__(self, repo_data):
 
         self.repo_data = repo_data
@@ -82,7 +83,6 @@ class ReadmeGenerator:
             installation += "```bash\n"
             installation += "python app.py\n"
             installation += "```\n"
-            
         elif language == 'JavaScript':
             installation += "### Prerequisites\n"
             installation += "- Node.js (v14 or higher)\n"
@@ -316,35 +316,32 @@ Please follow these guidelines:
         license_section = "## License\n\n"
         
         if license_name and license_name != 'No license':
-            license_section += f"""This project is licensed under the {license_name} License.
-See the [LICENSE](LICENSE) file for details.
-
-"""
+            license_section += f"This project is licensed under the {license_name} License.\n"
+            license_section += "See the [LICENSE](LICENSE) file for details.\n\n"
         else:
-            license_section += """This project is currently using no specific open-source license.
-For licensing inquiries, please contact the project maintainers.
-
-"""
+            license_section += "This project is currently using no specific open-source license.\n"
+            license_section += "For licensing inquiries, please contact the project maintainers.\n\n"
         
         return license_section
 
     def create_contact_section(self):
         features = self.extract_repo_features()
+        owner = features['owner']
+        name = features['name']
+        url = features['url']
+        homepage = features['homepage']
         
         contact = "## Support & Contact\n\n"
-        contact += f"""- **Repository**: [GitHub]({features['url']})
-"""
+        contact += f"- **Repository**: [GitHub]({url})\n"
         
-        if features['homepage'] and features['homepage'] != 'N/A':
-            contact += f"- **Website**: [{features['homepage']}]({features['homepage']})\n"
+        if homepage and homepage != 'N/A':
+            contact += f"- **Website**: [{homepage}]({homepage})\n"
         
-        contact += """- **Issues**: Use the [Issues tab](https://github.com/""" + features['owner'] + "/" + features['name'] + """/issues) for bug reports and feature requests
-
-"""
+        contact += f"- **Issues**: Use the [Issues tab](https://github.com/{owner}/{name}/issues) for bug reports and feature requests\n\n"
         return contact
 
     def format_markdown(self, sections_list=None):
-
+        
         if sections_list is None:
             sections_list = [
                 'summary',
@@ -385,6 +382,7 @@ For licensing inquiries, please contact the project maintainers.
         return readme
 
     def generate(self):
+        
         try:
             readme_content = self.format_markdown()
             return {
@@ -401,7 +399,7 @@ For licensing inquiries, please contact the project maintainers.
 
 
 def generate_readme(repo_data):
-
+    
     generator = ReadmeGenerator(repo_data)
     return generator.generate()
 
