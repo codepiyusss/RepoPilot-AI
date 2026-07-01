@@ -5,6 +5,7 @@ from datetime import datetime
 from urllib.parse import urlparse
 from services.readme_generator import generate_readme
 
+
 app = Flask(__name__)
 
 handler = app
@@ -122,6 +123,7 @@ def results():
     return render_template('results.html')
 
 
+
 @app.route('/api/generate-readme', methods=['POST'])
 def api_generate_readme():
     try:
@@ -158,6 +160,7 @@ def api_generate_readme():
 
 @app.route('/api/download-readme', methods=['POST'])
 def api_download_readme():
+
     try:
         data = request.get_json()
         
