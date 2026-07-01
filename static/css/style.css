@@ -1147,10 +1147,6 @@ main {
     }
 }
 
-<<<<<<< HEAD
-/* ==================== README Generator Styles ==================== */
-=======
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
 
 .readme-generator-section {
     padding: 3rem 0;
@@ -1211,10 +1207,6 @@ main {
     animation: spin 1s linear infinite;
 }
 
-<<<<<<< HEAD
-/* README Preview Panel */
-=======
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
 .readme-preview-panel {
     margin-top: 2rem;
     padding: 1.5rem;
@@ -1251,10 +1243,7 @@ main {
     gap: 0.4rem;
 }
 
-<<<<<<< HEAD
-/* README Content Styling */
-=======
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
+
 .readme-content {
     max-height: 600px;
     overflow-y: auto;
@@ -1356,10 +1345,7 @@ main {
     margin: 2rem 0;
 }
 
-<<<<<<< HEAD
-/* Generator Error */
-=======
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
+
 .generator-error {
     display: flex;
     align-items: center;
@@ -1377,10 +1363,7 @@ main {
     flex-shrink: 0;
 }
 
-<<<<<<< HEAD
-/* Responsive Design for README Generator */
-=======
->>>>>>> e45afc24204f19c61828c7156b8eeeed0bdf1c1e
+
 @media (max-width: 768px) {
     .generator-content {
         padding: 1.5rem;
