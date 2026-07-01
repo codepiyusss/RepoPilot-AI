@@ -3,6 +3,7 @@ import requests
 import re
 from datetime import datetime
 from urllib.parse import urlparse
+from services.readme_generator import generate_readme
 
 app = Flask(__name__)
 
@@ -13,15 +14,7 @@ GITHUB_API_BASE = "https://api.github.com"
 # ==================== Helper Functions ====================
 
 def validate_github_url(url):
-    """
-    Validate GitHub repository URL
-    
-    Args:
-        url (str): The GitHub URL to validate
-        
-    Returns:
-        dict: {'valid': bool, 'owner': str, 'repo': str, 'error': str}
-    """
+
     if not url or not isinstance(url, str):
         return {'valid': False, 'error': 'Invalid URL format'}
     
@@ -39,16 +32,7 @@ def validate_github_url(url):
 
 
 def fetch_repository_data(owner, repo):
-    """
-    Fetch repository data from GitHub API
-    
-    Args:
-        owner (str): Repository owner username
-        repo (str): Repository name
-        
-    Returns:
-        dict: Repository data or error
-    """
+
     try:
         url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}"
         response = requests.get(url, timeout=10)
@@ -69,15 +53,7 @@ def fetch_repository_data(owner, repo):
 
 
 def extract_repo_info(repo_data):
-    """
-    Extract relevant repository information from GitHub API response
-    
-    Args:
-        repo_data (dict): Raw data from GitHub API
-        
-    Returns:
-        dict: Extracted and formatted repository information
-    """
+
     try:
         created_at = datetime.fromisoformat(repo_data.get('created_at', '').replace('Z', '+00:00'))
         updated_at = datetime.fromisoformat(repo_data.get('updated_at', '').replace('Z', '+00:00'))
@@ -120,17 +96,6 @@ def about():
 
 @app.route('/api/analyze', methods=['POST'])
 def analyze_repository():
-    """
-    API endpoint to analyze a GitHub repository
-    
-    Expected JSON:
-        {
-            "url": "https://github.com/owner/repo"
-        }
-    
-    Returns:
-        JSON with repository information or error
-    """
     data = request.get_json()
     
     if not data or 'url' not in data:
@@ -161,6 +126,63 @@ def analyze_repository():
 def results():
     """Results/Dashboard page"""
     return render_template('results.html')
+
+
+@app.route('/api/generate-readme', methods=['POST'])
+def api_generate_readme():
+    try:
+        data = request.get_json()
+        
+        if not data or 'repo_data' not in data:
+            return jsonify({'error': 'No repository data provided'}), 400
+        
+        repo_data = data['repo_data']
+        
+        # Generate README using the service
+        result = generate_readme(repo_data)
+        
+        if result['success']:
+            return jsonify({
+                'success': True,
+                'readme': result['readme'],
+                'message': result['message']
+            }), 200
+        else:
+            return jsonify({
+                'success': False,
+                'error': result.get('error', 'Unknown error'),
+                'message': result.get('message', 'Failed to generate README')
+            }), 500
+            
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': 'An error occurred while generating README'
+        }), 500
+
+
+@app.route('/api/download-readme', methods=['POST'])
+def api_download_readme():
+
+    try:
+        data = request.get_json()
+        
+        if not data or 'readme_content' not in data:
+            return jsonify({'error': 'No README content provided'}), 400
+        
+        readme_content = data['readme_content']
+        
+        # Create response with file download
+        from flask import Response
+        return Response(
+            readme_content,
+            mimetype='text/markdown',
+            headers={'Content-Disposition': 'attachment; filename=README.md'}
+        )
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
