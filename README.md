@@ -63,7 +63,7 @@ This project is still a work in progress. Some buttons and planned features are 
 *(I'll keep updating this section as the project grows.)*
 
 <p align="center">
-  <img src="your-image-1.png" width="800">
+  <img src="https://github.com/user-attachments/assets/afb642ae-404c-45ca-b3f8-a2fbe16f1915" height="919" alt="1" />
   <br><br>
   <img src="your-image-2.png" width="800">
 </p>
