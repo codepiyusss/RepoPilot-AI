@@ -63,9 +63,12 @@ This project is still a work in progress. Some buttons and planned features are 
 *(I'll keep updating this section as the project grows.)*
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/afb642ae-404c-45ca-b3f8-a2fbe16f1915" height="919" alt="1" />
-  <br><br>
-  <img src="your-image-2.png" width="800">
+  <img src="https://github.com/user-attachments/assets/afb642ae-404c-45ca-b3f8-a2fbe16f1915" width="400" alt="1" />
+  <img width="400" alt="2" src="https://github.com/user-attachments/assets/4f5336b2-0351-41ef-b5ee-c49d80fa41c3" />
+  <br> </br>
+  <img width="400" alt="3" src="https://github.com/user-attachments/assets/3f02c5cb-8619-4040-800a-a7b1eb01d8e5" />
+  <img width="400" alt="4" src="https://github.com/user-attachments/assets/b0bb159a-1592-42a3-8b17-63042294ae00" />
+
 </p>
 
 ---
