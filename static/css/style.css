@@ -1364,6 +1364,171 @@ main {
 }
 
 
+/* Architecture Analyzer */
+
+.architecture-generator-section {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+}
+
+.architecture-results {
+    margin-top: 2rem;
+}
+
+.architecture-top-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.architecture-framework-card,
+.architecture-score-card {
+    padding: 1.5rem;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.architecture-framework-card h3,
+.architecture-score-card h3 {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.architecture-score-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.score-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.score-max {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-left: 2px;
+}
+
+.architecture-block {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.architecture-block h3 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.architecture-block:last-child {
+    margin-bottom: 0;
+}
+
+.architecture-summary-text {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 0;
+}
+
+.architecture-diagram {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    padding: 1rem 0;
+}
+
+.architecture-structure-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.structure-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.structure-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.structure-item code {
+    background-color: var(--bg-secondary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    color: var(--accent-blue);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    min-width: 100px;
+}
+
+.structure-item p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.architecture-recommendations-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.architecture-recommendations-list li {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.architecture-recommendations-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent-blue);
+}
+
+@media (max-width: 768px) {
+    .architecture-top-row {
+        grid-template-columns: 1fr;
+    }
+
+    .structure-item {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+}
+
+
 @media (max-width: 768px) {
     .generator-content {
         padding: 1.5rem;
