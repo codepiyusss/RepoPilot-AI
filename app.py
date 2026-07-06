@@ -85,12 +85,12 @@ def extract_repo_info(repo_data):
 
 @app.route('/')
 def home():
-    return render_template('templates/index.html')
+    return render_template('index.html')
 
 
 @app.route('/about')
 def about():
-    return render_template('templates/about.html')
+    return render_template('about.html')
 
 
 @app.route('/api/analyze', methods=['POST'])
@@ -123,7 +123,7 @@ def analyze_repository():
 
 @app.route('/results')
 def results():
-    return render_template('templates/results.html')
+    return render_template('results.html')
 
 
 
