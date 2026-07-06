@@ -4,6 +4,7 @@ import re
 from datetime import datetime
 from urllib.parse import urlparse
 from services.readme_generator import generate_readme
+from services.architecture_analyzer import analyze_repository_architecture
 
 
 app = Flask(__name__)
@@ -181,6 +182,47 @@ def api_download_readme():
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/analyze-architecture', methods=['POST'])
+def api_analyze_architecture():
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+
+        # Accept either a raw GitHub URL or an owner/repo pair
+        owner = data.get('owner')
+        repo = data.get('repo')
+
+        if not owner or not repo:
+            if 'url' in data:
+                validation = validate_github_url(data['url'])
+                if not validation['valid']:
+                    return jsonify({'error': validation['error']}), 400
+                owner = validation['owner']
+                repo = validation['repo']
+            else:
+                return jsonify({'error': 'No repository owner/repo or URL provided'}), 400
+
+        result = analyze_repository_architecture(owner, repo)
+
+        if result['success']:
+            return jsonify(result), 200
+        else:
+            return jsonify({
+                'success': False,
+                'error': result.get('error', 'Unknown error'),
+                'message': result.get('message', 'Failed to analyze repository architecture')
+            }), result.get('status', 500)
+
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': 'An error occurred while analyzing repository architecture'
+        }), 500
 
 
 if __name__ == '__main__':
