@@ -19,3 +19,11 @@ sample_repo_data = {
     'visibility': 'Public'
 }
 
+# Test README generation
+print("=" * 60)
+print("Testing README Generator")
+print("=" * 60)
+print()
+
+result = generate_readme(sample_repo_data)
+
