@@ -17,3 +17,8 @@ repo_data = {
     'homepage': 'https://test-repo.com',
     'visibility': 'Public'
 }
+print('=' * 60)
+print('Testing README Generator API')
+print('=' * 60)
+print()
+
