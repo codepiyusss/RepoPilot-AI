@@ -27,3 +27,18 @@ print()
 
 result = generate_readme(sample_repo_data)
 
+if result['success']:
+    print("✓ README Generated Successfully!")
+    print()
+    print("README Content Preview (first 500 chars):")
+    print("-" * 60)
+    print(result['readme'][:500] + "...")
+    print("-" * 60)
+    print()
+    print("Full README length:", len(result['readme']), "characters")
+    print()
+    print("✓ Test passed!")
+else:
+    print("✗ README Generation failed!")
+    print("Error:", result.get('error', 'Unknown error'))
+    sys.exit(1)
