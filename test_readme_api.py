@@ -40,3 +40,24 @@ print(f'  Generated README: {len(readme_content)} characters')
 print(f'  Contains all expected sections')
 print('  ✓ PASS\n')
 
+# Test 2: Missing repo_data
+print('Test 2: POST /api/generate-readme - Missing repo_data')
+response = requests.post(
+    f'{BASE_URL}/api/generate-readme',
+    json={}
+)
+assert response.status_code == 400, f"Expected 400, got {response.status_code}"
+data = response.json()
+assert 'error' in data, "Expected error message"
+print(f'  Error: {data["error"]}')
+print('  ✓ PASS\n')
+
+# Test 3: Generate with JavaScript repo
+print('Test 3: POST /api/generate-readme - JavaScript Project')
+js_repo_data = repo_data.copy()
+js_repo_data['language'] = 'JavaScript'
+js_repo_data['name'] = 'awesome-js-lib'
+response = requests.post(
+    f'{BASE_URL}/api/generate-readme',
+    json={'repo_data': js_repo_data}
+)
