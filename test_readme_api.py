@@ -61,3 +61,33 @@ response = requests.post(
     f'{BASE_URL}/api/generate-readme',
     json={'repo_data': js_repo_data}
 )
+assert response.status_code == 200, f"Expected 200, got {response.status_code}"
+data = response.json()
+assert data.get('success') == True, "Expected success=True"
+readme_content = data.get('readme', '')
+assert 'npm install' in readme_content or 'npm' in readme_content, "README should mention npm"
+print(f'  Generated JavaScript-specific README: {len(readme_content)} characters')
+print(f'  Contains npm installation instructions')
+print('  ✓ PASS\n')
+
+# Test 4: Generate with Java repo
+print('Test 4: POST /api/generate-readme - Java Project')
+java_repo_data = repo_data.copy()
+java_repo_data['language'] = 'Java'
+java_repo_data['name'] = 'java-framework'
+response = requests.post(
+    f'{BASE_URL}/api/generate-readme',
+    json={'repo_data': java_repo_data}
+)
+assert response.status_code == 200, f"Expected 200, got {response.status_code}"
+data = response.json()
+assert data.get('success') == True, "Expected success=True"
+readme_content = data.get('readme', '')
+assert 'mvn' in readme_content or 'Maven' in readme_content or 'gradle' in readme_content, "README should mention Java build tools"
+print(f'  Generated Java-specific README: {len(readme_content)} characters')
+print(f'  Contains Maven/Gradle build instructions')
+print('  ✓ PASS\n')
+
+print('=' * 60)
+print('All README Generator API tests passed! ✓')
+print('=' * 60)
