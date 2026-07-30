@@ -1,11 +1,3 @@
-from flask import Flask, render_template, jsonify, request
-import requests
-import re
-from datetime import datetime
-from urllib.parse import urlparse
-from services.readme_generator import generate_readme
-from services.architecture_analyzer import analyze_repository_architecture
-
 
 app = Flask(__name__)
 
