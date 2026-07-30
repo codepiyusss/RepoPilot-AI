@@ -131,26 +131,7 @@ def api_generate_readme():
         
         # Generate README using the service
         result = generate_readme(repo_data)
-        
-        if result['success']:
-            return jsonify({
-                'success': True,
-                'readme': result['readme'],
-                'message': result['message']
-            }), 200
-        else:
-            return jsonify({
-                'success': False,
-                'error': result.get('error', 'Unknown error'),
-                'message': result.get('message', 'Failed to generate README')
-            }), 500
-            
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e),
-            'message': 'An error occurred while generating README'
-        }), 500
+
 
 
 @app.route('/api/download-readme', methods=['POST'])
