@@ -226,6 +226,10 @@ def api_analyze_architecture():
         }), 500
 
 
+def myfunc():
+    print("Hellow World")
+
+
 if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 5000))
