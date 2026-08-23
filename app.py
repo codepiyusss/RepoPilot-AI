@@ -240,3 +240,7 @@ def archtecture_analyze():
         elif repo_data.get_jason() in data:
             request = request.get_json()
             return f"error, No Data Fetched"
+        else:
+            return f'''{data} analysis Done!
+            Are You gonna continue? yes/no(y/n)'''
+            
