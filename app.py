@@ -237,3 +237,6 @@ def archtecture_analyze():
         repo_data_set
         if not repo_data:
             return jsonify({'error': 'No data provided'}), 400
+        elif repo_data.get_jason() in data:
+            request = request.get_json()
+            return f"error, No Data Fetched"
