@@ -231,7 +231,7 @@ if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=port)
 
 
-def archtecture_analyze():
+def architecture_analyze():
     try:
         data = request.get_json()
         repo_data_set
@@ -245,5 +245,7 @@ def archtecture_analyze():
             print("Continue?")
 
             choice = input("Yes/No (y/n): ")
-            if upperchoice
-            
+            if uppercase(choice) == Y:
+                return architechture_analyze()
+            else:
+                return 1
