@@ -241,6 +241,9 @@ def archtecture_analyze():
             request = request.get_json()
             return f"error, No Data Fetched"
         else:
-            return f'''{data} analysis Done!
-            Are You gonna continue? yes/no(y/n)'''
+            print(f"{data} analysis done!")
+            print("Continue?")
+
+            choice = input("Yes/No (y/n): ")
+            if upperchoice
             
