@@ -18,20 +18,51 @@ GITHUB_API_BASE = "https://api.github.com"
 # Helper Functions
 
 def validate_github_url(url):
-
     if not url or not isinstance(url, str):
         return {'valid': False, 'error': 'Invalid URL format'}
-    
+
     url = url.strip()
-    
-    # Pattern to match GitHub URLs
-    pattern = r'^(?:https?://)?(?:www\.)?github\.com/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_.-]+?)(?:\.git)?/?$'
-    match = re.match(pattern, url)
-    
-    if not match:
-        return {'valid': False, 'error': 'Invalid GitHub URL format. Use: github.com/owner/repo'}
-    
-    owner, repo = match.groups()
+
+    if not url:
+        return {'valid': False, 'error': 'Invalid URL format'}
+
+    if not url.startswith(('http://', 'https://')):
+        url = 'https://' + url
+
+    try:
+        parsed = urlparse(url)
+    except ValueError:
+        return {'valid': False, 'error': 'Invalid URL format'}
+
+    if parsed.scheme != 'https' or parsed.hostname not in {
+        'github.com', 'www.github.com'
+    }:
+        return {
+            'valid': False,
+            'error': 'URL must point to github.com'
+        }
+
+    parts = parsed.path.strip('/').split('/')
+
+    if len(parts) != 2:
+        return {
+            'valid': False,
+            'error': 'Use a URL in the format github.com/owner/repo'
+        }
+
+    owner, repo = parts
+
+    if repo.endswith('.git'):
+        repo = repo[:-4]
+
+    name_pattern = r'^[a-zA-Z0-9][a-zA-Z0-9_-]*$'
+
+    if not re.fullmatch(name_pattern, owner):
+        return {'valid': False, 'error': 'Invalid repository owner'}
+
+    if not re.fullmatch(r'^[a-zA-Z0-9._-]+$', repo) or repo in {'.', '..'}:
+        return {'valid': False, 'error': 'Invalid repository name'}
+
     return {'valid': True, 'owner': owner, 'repo': repo}
 
 def fetch_repository_data(owner, repo):
@@ -231,7 +262,7 @@ if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=port)
 
 
-def architecture_analyze():
+def architecture_analyzze():
     try:
         data = request.get_json()
         repo_data_set
